@@ -1,5 +1,6 @@
 import express from 'express';
 import {db} from './config/db';
+import {Router} from './routes/crudRoutes';
 
 const app: any = express();
 const PORT: number = 3000;
@@ -12,8 +13,9 @@ db.authenticate()
 });
 
 app.use(express.json()); // for parsing json in request
+app.use('/crud',Router);
 
-app.use((req, res) => {
+app.use((req:any, res:any) => {
 // Invalid request
     res.json({
         error: {
