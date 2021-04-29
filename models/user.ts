@@ -1,27 +1,33 @@
-import Sequelize from 'sequelize';
+import {DataTypes, Model, Optional} from 'sequelize';
 import {db} from '../config/db';
 
-export const User = db.define('user',{
+export interface UserAttributes {
+    id?: number;
+    login:string;
+    password:string;
+    age:number;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+interface UserInstance extends Model<UserAttributes, UserCreationAttributes>,UserAttributes {}
+
+export const User = db.define<UserInstance>("UserDetails", {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+      primaryKey: true,
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
     },
     login:{
-        type:Sequelize.STRING,
-        allowNull : false
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     password:{
-        type:Sequelize.STRING,
-        allowNull : false
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     age:{
-        type:Sequelize.INTEGER,
-        allowNull : false
-    },
-    isDeleted:{
-        type:Sequelize.BOOLEAN,
-        allowNull:false,
-        defaultValue:false
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
     }
-});
+ });
